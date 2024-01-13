@@ -8,9 +8,8 @@ public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
 
-
-
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
+
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
         public ClearCounter selectedCounter;
@@ -29,12 +28,11 @@ public class Player : MonoBehaviour
     {
         if (Instance != null)
         {
-            Debug.LogError("ÒÑ¾­ÓĞÒ»¸öÍæ¼ÒÊµÀı£¡");    
+            Debug.LogError("å·²ç»æœ‰ä¸€ä¸ªç©å®¶å®ä¾‹ï¼");
         }
+
         Instance = this;
     }
-
-
 
     private void Start()
     {
@@ -42,7 +40,7 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// ÊÂ¼ş´¦ÀíÆ÷£¬´¦ÀíÓë¹ñÌ¨½»»¥
+    /// äº‹ä»¶å¤„ç†å™¨ï¼Œå¤„ç†ä¸æŸœå°äº¤äº’
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -55,8 +53,6 @@ public class Player : MonoBehaviour
     }
 
 
-
-
     private void Update()
     {
         HandleMovement();
@@ -64,7 +60,7 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// ½ÇÉ«½»»¥Âß¼­
+    /// è§’è‰²äº¤äº’é€»è¾‘
     /// </summary>
     private void HandleInteractions()
     {
@@ -78,11 +74,12 @@ public class Player : MonoBehaviour
         }
 
         float interactionDistance = 2f;
-        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactionDistance, countersLayerMask))
+        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactionDistance,
+                countersLayerMask))
         {
-            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter)) 
+            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
             {
-                // ÓĞClearCounter
+                // æœ‰ClearCounter
                 if (selectedCounter != clearCounter)
                 {
                     SetSelectedCounter(clearCounter);
@@ -100,96 +97,103 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// ½ÇÉ«ÒÆ¶¯Âß¼­
+    /// è§’è‰²ç§»åŠ¨é€»è¾‘
     /// </summary>
     private void HandleMovement()
     {
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
 
-        #region ÉèÖÃÒÆ¶¯
-        //²»Ê¹ÓÃÎïÀí
-        //²»ÄÜÖ±½ÓÊ¹ÓÃinputVector,3dµÄµØÃæÊÇxºÍzÖá
+        #region è®¾ç½®ç§»åŠ¨
+
+        // ä¸ä½¿ç”¨ç‰©ç†
+        // ä¸èƒ½ç›´æ¥ä½¿ç”¨inputVector,3dçš„åœ°é¢æ˜¯xå’Œzè½´
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
-        #region Í¨¹ıÉäÏß¼ì²âÅö×²
+        #region é€šè¿‡å°„çº¿æ£€æµ‹ç¢°æ’
+
         float moveDistance = moveSpeed * Time.deltaTime;
         float playerRadius = .7f;
         float playerHeight = 2f;
         bool canMove = !Physics.CapsuleCast(transform.position,
             transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
+
         #endregion
 
-        #region Ê¹½ÇÉ«ÔÚ¶Ô½ÇÏßÉÏÒÆ¶¯Ê±Åöµ½ÕÏ°­Îï¿ÉÒÔÑØ×ÅÕÏ°­×ß
+        #region ä½¿è§’è‰²åœ¨å¯¹è§’çº¿ä¸Šç§»åŠ¨æ—¶ç¢°åˆ°éšœç¢ç‰©å¯ä»¥æ²¿ç€éšœç¢èµ°
+
         if (!canMove)
         {
-            //²»ÄÜÒÆ¶¯£¨ÔÚ¶Ô½ÇÏßÉÏ·¢³öÉäÏßÓĞÕÏ°­Îï£©
+            // ä¸èƒ½ç§»åŠ¨ï¼ˆåœ¨å¯¹è§’çº¿ä¸Šå‘å‡ºå°„çº¿æœ‰éšœç¢ç‰©ï¼‰
 
-            //³¢ÊÔÔÚxÖáÊÇ·ñ¿ÉÒÔÒÆ¶¯
+            //å°è¯•åœ¨xè½´æ˜¯å¦å¯ä»¥ç§»åŠ¨
             Vector3 moveDirX = new Vector3(moveDir.x, 0, 0);
             canMove = !Physics.CapsuleCast(transform.position,
                 transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
 
             if (canMove)
             {
-                //¿ÉÒÔÔÚxÖáÒÆ¶¯
+                // å¯ä»¥åœ¨xè½´ç§»åŠ¨
                 moveDir = moveDirX;
             }
             else
             {
-                //²»ÄÜÔÚxÖáÉÏÒÆ¶¯
+                // ä¸èƒ½åœ¨xè½´ä¸Šç§»åŠ¨
 
-                //³¢ÊÔÔÚxÖáÊÇ·ñ¿ÉÒÔÒÆ¶¯
+                // å°è¯•åœ¨xè½´æ˜¯å¦å¯ä»¥ç§»åŠ¨
                 Vector3 moveDirZ = new Vector3(0, 0, moveDir.z);
                 canMove = !Physics.CapsuleCast(transform.position,
                     transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
 
                 if (canMove)
                 {
-                    //¿ÉÒÔÔÚzÖáÒÆ¶¯
+                    // å¯ä»¥åœ¨zè½´ç§»åŠ¨
                     moveDir = moveDirZ;
                 }
                 else
                 {
-                    //²»ÄÜÔÚzÖáÉÏÒÆ¶¯
+                    // ä¸èƒ½åœ¨zè½´ä¸Šç§»åŠ¨
                 }
             }
         }
+
         #endregion
 
         if (canMove)
         {
             transform.position += moveDir * moveDistance;
         }
+
         #endregion
 
-        #region ÉèÖÃÅĞ¶ÏÊÇ·ñÊÇÒÆ¶¯µÄ²¼¶ûÖµ
+        #region è®¾ç½®åˆ¤æ–­æ˜¯å¦æ˜¯ç§»åŠ¨çš„å¸ƒå°”å€¼
+
         isWalking = moveDir != Vector3.zero;
+
         #endregion
 
-        #region ÉèÖÃ½ÇÉ«Ğı×ª
-        //transform.eulerAnglesºÍtransform.rotation±íÊ¾GameObjectµÄĞı×ªĞÅÏ¢£¬·Ö±ğÓÃÅ·À­½ÇºÍËÄÔªÊı
-        //transform.forward±íÊ¾GameObjectÔÚÊÀ½ç×ø±êÏµÖĞµÄÇ°·½·½Ïò
-        //Slerp ·½·¨¸üÊÊÓÃÓÚĞèÒªÔÚÇòÃæÉÏ½øĞĞ²åÖµµÄÇé¿ö£¬ÀıÈçĞı×ªÎïÌå¡£
-        //¶ø Lerp ·½·¨¸üÊÊÓÃÓÚĞèÒªÔÚÖ±ÏßÉÏ½øĞĞ²åÖµµÄÇé¿ö£¬ÀıÈçÒÆ¶¯ÎïÌå¡£
+        #region è®¾ç½®è§’è‰²æ—‹è½¬
+
+        // transform.eulerAngleså’Œtransform.rotationè¡¨ç¤ºGameObjectçš„æ—‹è½¬ä¿¡æ¯ï¼Œåˆ†åˆ«ç”¨æ¬§æ‹‰è§’å’Œå››å…ƒæ•°
+        // transform.forwardè¡¨ç¤ºGameObjectåœ¨ä¸–ç•Œåæ ‡ç³»ä¸­çš„å‰æ–¹æ–¹å‘
+        // Slerp æ–¹æ³•æ›´é€‚ç”¨äºéœ€è¦åœ¨çƒé¢ä¸Šè¿›è¡Œæ’å€¼çš„æƒ…å†µï¼Œä¾‹å¦‚æ—‹è½¬ç‰©ä½“ã€‚
+        // è€Œ Lerp æ–¹æ³•æ›´é€‚ç”¨äºéœ€è¦åœ¨ç›´çº¿ä¸Šè¿›è¡Œæ’å€¼çš„æƒ…å†µï¼Œä¾‹å¦‚ç§»åŠ¨ç‰©ä½“ã€‚
         float rotateSpeed = 10f;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+
         #endregion
     }
 
-
-
-
     /// <summary>
-    /// ÉèÖÃ¶¯»­²¥·ÅÊÇIdel»òWalk
+    /// è®¾ç½®åŠ¨ç”»æ’­æ”¾æ˜¯Idelæˆ–Walk
     /// </summary>
-    /// <returns>ÅĞ¶ÏÊÇ·ñÊÇÒÆ¶¯µÄ²¼¶ûÖµ</returns>
+    /// <returns>åˆ¤æ–­æ˜¯å¦æ˜¯ç§»åŠ¨çš„å¸ƒå°”å€¼</returns>
     public bool IsWalking()
     {
         return isWalking;
     }
 
     /// <summary>
-    /// ÉèÖÃ¹ñÌ¨µÄÑ¡Ôñ
+    /// è®¾ç½®æŸœå°çš„é€‰æ‹©
     /// </summary>
     /// <param name="selectedCounter"></param>
     private void SetSelectedCounter(ClearCounter selectedCounter)

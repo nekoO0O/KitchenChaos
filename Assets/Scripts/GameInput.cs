@@ -22,14 +22,14 @@ public class GameInput : MonoBehaviour
     }
 
     /// <summary>
-    /// Í¨¹ıÊäÈë»ñÈ¡ÒÆ¶¯ÏòÁ¿£¬²¢±ê×¼»¯
+    /// é€šè¿‡è¾“å…¥è·å–ç§»åŠ¨å‘é‡ï¼Œå¹¶æ ‡å‡†åŒ–
     /// </summary>
-    /// <returns>·µ»ØÒÆ¶¯ÏòÁ¿</returns>
+    /// <returns>è¿”å›ç§»åŠ¨å‘é‡</returns>
     public Vector2 GetMovementVectorNormalized()
     {
         Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
 
-        //½«ÊäÈëµÄÏòÁ¿±ê×¼»¯£¨Í¬Ê±°´ÏÂWºÍD£¬»áÊä³ö£¨1£¬1£©£¬ÎÒÏ£Íû½ÇÉ«µÄËÙ¶È²»»á±ä£¬Ó¦Îª£¨0.71£¬0.71£©£©
+        // å°†è¾“å…¥çš„å‘é‡æ ‡å‡†åŒ–ï¼ˆåŒæ—¶æŒ‰ä¸‹Wå’ŒDï¼Œä¼šè¾“å‡ºï¼ˆ1ï¼Œ1ï¼‰ï¼Œæˆ‘å¸Œæœ›è§’è‰²çš„é€Ÿåº¦ä¸ä¼šå˜ï¼Œåº”ä¸ºï¼ˆ0.71ï¼Œ0.71ï¼‰ï¼‰
         inputVector = inputVector.normalized;
 
         return inputVector;
