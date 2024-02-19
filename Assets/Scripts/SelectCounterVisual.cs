@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 处理选中柜台的视觉效果
+/// </summary>
 public class SelectCounterVisual : MonoBehaviour
 {
     [SerializeField] private ClearCounter clearCounter;
