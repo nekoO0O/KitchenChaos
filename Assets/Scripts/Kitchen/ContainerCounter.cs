@@ -14,8 +14,12 @@ public class ContainerCounter : BaseCounter
     /// <param name="player"></param>
     public override void Interact(Player player)
     {
-        Transform kitchenObjectTransform = Instantiate(KitchenObjectSo.prefab, GetKitchenObjectFollowTransform());
-        kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(player);
-        OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
+        if (!player.HasKitchenObject())// 玩家没有持有KitchenObject
+        {
+            Transform kitchenObjectTransform = Instantiate(KitchenObjectSo.prefab, GetKitchenObjectFollowTransform());
+            kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(player);
+            
+            OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);// 打开箱子动画事件
+        }
     }
 }
