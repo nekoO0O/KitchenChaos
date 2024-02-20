@@ -7,7 +7,7 @@ public class KitchenObject : MonoBehaviour
     [SerializeField] private KitchenObjectSO kitchenObjectSo;
 
     private IKitchenObjectParent kitchenObjectParent;
-    
+
     public KitchenObjectSO GetKitchenObjectSo()
     {
         return kitchenObjectSo;
@@ -19,15 +19,16 @@ public class KitchenObject : MonoBehaviour
         {
             this.kitchenObjectParent.ClearKitchenObject();
         }
-        
+
         this.kitchenObjectParent = kitchenObjectParent;
 
-        if (kitchenObjectParent.HasKitchenObject())// 安全检查
+        if (kitchenObjectParent.HasKitchenObject()) // 安全检查
         {
             Debug.LogError("IKitchenObjectParent already has a KitchenObject!");
         }
+
         kitchenObjectParent.SetKitchenObject(this);
-        
+
         transform.parent = kitchenObjectParent.GetKitchenObjectFollowTransform();
         transform.localPosition = Vector3.zero;
     }
@@ -35,5 +36,28 @@ public class KitchenObject : MonoBehaviour
     public IKitchenObjectParent GetKitchenObjectParent()
     {
         return kitchenObjectParent;
+    }
+
+    public void DestroySelf()
+    {
+        kitchenObjectParent.ClearKitchenObject();
+
+        Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// 生成一个KitchenObject
+    /// </summary>
+    /// <param name="kitchenObjectSo">生成的对象</param>
+    /// <param name="kitchenObjectParent">生成的父物体</param>
+    /// <returns>生成的对象</returns>
+    public static KitchenObject SpawnKitchenObject(KitchenObjectSO kitchenObjectSo,
+        IKitchenObjectParent kitchenObjectParent)
+    {
+        Transform kitchenObjectTransform = Instantiate(kitchenObjectSo.prefab);
+        KitchenObject kitchenObject = kitchenObjectTransform.GetComponent<KitchenObject>();
+        kitchenObject.SetKitchenObjectParent(kitchenObjectParent);
+
+        return kitchenObject;
     }
 }

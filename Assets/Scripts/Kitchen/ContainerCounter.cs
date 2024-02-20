@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ContainerCounter : BaseCounter
 {
-    [SerializeField] private KitchenObjectSO KitchenObjectSo;
+    [SerializeField] private KitchenObjectSO kitchenObjectSo;
     public event EventHandler OnPlayerGrabbedObject;// 玩家交互触发事件
 
     /// <summary>
@@ -16,8 +16,7 @@ public class ContainerCounter : BaseCounter
     {
         if (!player.HasKitchenObject())// 玩家没有持有KitchenObject
         {
-            Transform kitchenObjectTransform = Instantiate(KitchenObjectSo.prefab, GetKitchenObjectFollowTransform());
-            kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(player);
+            KitchenObject.SpawnKitchenObject(kitchenObjectSo, player);
             
             OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);// 打开箱子动画事件
         }

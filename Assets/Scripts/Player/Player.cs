@@ -23,7 +23,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     {
         public BaseCounter selectedCounter;
     }
-    
+
     // 玩家与物品交互
     [SerializeField] private Transform kitchenObjectHoldPoint;
     private KitchenObject kitchenObject;
@@ -42,6 +42,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private void Start()
     {
         gameInput.OnInteractAction += GameInput_OnInteractAction;
+        gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
     }
 
     private void Update()
@@ -78,7 +79,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         {
             // 不能移动（在对角线上发出射线有障碍物），尝试在x轴是否可以移动
             Vector3 moveDirX = new Vector3(moveDir.x, 0, 0);
-            canMove = !Physics.CapsuleCast(transform.position,
+            canMove = moveDir.x != 0 && !Physics.CapsuleCast(transform.position,
                 transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
 
             if (canMove)
@@ -90,7 +91,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             {
                 // 不能在x轴上移动，尝试在z轴是否可以移动
                 Vector3 moveDirZ = new Vector3(0, 0, moveDir.z);
-                canMove = !Physics.CapsuleCast(transform.position,
+                canMove = moveDir.z != 0 && !Physics.CapsuleCast(transform.position,
                     transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
 
                 if (canMove)
@@ -203,6 +204,19 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         {
             selectedCounter = selectedCounter
         });
+    }
+
+    /// <summary>
+    /// 事件处理器，处理与切割柜台切割动作交互（逻辑）
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void GameInput_OnInteractAlternateAction(object sender, System.EventArgs e)
+    {
+        if (selectedCounter != null)
+        {
+            selectedCounter.InteractAlternate(this);
+        }
     }
 
     public Transform GetKitchenObjectFollowTransform()

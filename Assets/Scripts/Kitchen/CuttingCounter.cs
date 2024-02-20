@@ -1,13 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ClearCounter : BaseCounter
+public class CuttingCounter : BaseCounter
 {
-    [SerializeField] private KitchenObjectSO KitchenObjectSo;
+    [SerializeField] private KitchenObjectSO cutKitchenObjectSo;
 
-    /// <summary>
-    /// 玩家互动
-    /// </summary>
-    /// <param name="player"></param>
     public override void Interact(Player player)
     {
         if (!HasKitchenObject()) // 柜台没有KitchenObject
@@ -29,6 +27,16 @@ public class ClearCounter : BaseCounter
             {
                 GetKitchenObject().SetKitchenObjectParent(player);
             }
+        }
+    }
+
+    public override void InteractAlternate(Player player)
+    {
+        if (HasKitchenObject()) // 柜台有KitchenObject
+        {
+            GetKitchenObject().DestroySelf();
+
+            KitchenObject.SpawnKitchenObject(cutKitchenObjectSo, this);
         }
     }
 }
