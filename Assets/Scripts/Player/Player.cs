@@ -16,12 +16,12 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     // 玩家与柜台交互
     [SerializeField] private LayerMask countersLayerMask;
     private Vector3 lastInteractDir;
-    private ClearCounter selectedCounter;
+    private BaseCounter selectedCounter;
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
 
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
-        public ClearCounter selectedCounter;
+        public BaseCounter selectedCounter;
     }
     
     // 玩家与物品交互
@@ -159,12 +159,12 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactionDistance,
                 countersLayerMask))
         {
-            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            if (raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
             {
                 // 有ClearCounter
-                if (selectedCounter != clearCounter)
+                if (selectedCounter != baseCounter)
                 {
-                    SetSelectedCounter(clearCounter);
+                    SetSelectedCounter(baseCounter);
                 }
             }
             else
@@ -195,7 +195,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     /// 设置柜台的选择（视觉）
     /// </summary>
     /// <param name="selectedCounter"></param>
-    private void SetSelectedCounter(ClearCounter selectedCounter)
+    private void SetSelectedCounter(BaseCounter selectedCounter)
     {
         this.selectedCounter = selectedCounter;
 
