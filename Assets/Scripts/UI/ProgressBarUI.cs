@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class ProgressBarUI : MonoBehaviour
     private void Start()
     {
         cuttingCounter.OnProgressChanged += CuttingCounter_OnProgressChanged;
+        cuttingCounter.OnGetKitchenObject += CuttingCounter_OnGetKitchenObject;
 
         barImage.fillAmount = 0f;
         Hide();
@@ -28,6 +30,11 @@ public class ProgressBarUI : MonoBehaviour
         {
             Show();
         }
+    }
+
+    private void CuttingCounter_OnGetKitchenObject(object sender, EventArgs e)
+    {
+        Hide();
     }
 
     private void Show()
