@@ -38,6 +38,9 @@ public class KitchenObject : MonoBehaviour
         return kitchenObjectParent;
     }
 
+    /// <summary>
+    /// 清除该KitchenObject
+    /// </summary>
     public void DestroySelf()
     {
         kitchenObjectParent.ClearKitchenObject();
