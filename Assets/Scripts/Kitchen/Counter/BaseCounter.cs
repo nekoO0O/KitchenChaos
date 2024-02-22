@@ -7,16 +7,23 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     [SerializeField] private Transform counterTopPoint;
     private KitchenObject kitchenObject;
 
+    /// <summary>
+    /// 交互（E键）
+    /// </summary>
+    /// <param name="player"></param>
     public virtual void Interact(Player player)
     {
         Debug.LogError("BaseCounter.Interact();");
     }
 
+    /// <summary>
+    /// 辅助交互（F键）
+    /// </summary>
+    /// <param name="player"></param>
     public virtual void InteractAlternate(Player player)
     {
-        Debug.LogError("BaseCounter.InteractAlternate();");
     }
-    
+
     public Transform GetKitchenObjectFollowTransform()
     {
         return counterTopPoint;
