@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlateKitchenObject : KitchenObject
 {
-    public event EventHandler<OnIngredientAddedEventArgs> OnIngredientAdded;
+    public event EventHandler<OnIngredientAddedEventArgs> OnIngredientAdded; // 添加物品触发事件
 
     public class OnIngredientAddedEventArgs : EventArgs
     {
@@ -42,5 +42,10 @@ public class PlateKitchenObject : KitchenObject
             });
             return true;
         }
+    }
+
+    public List<KitchenObjectSO> GetKitchenObjectSOList()
+    {
+        return KitchenObjectSOList;
     }
 }
