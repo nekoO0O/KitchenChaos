@@ -24,6 +24,23 @@ public class ClearCounter : BaseCounter
         {
             if (player.HasKitchenObject())
             {
+                if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject)) // 玩家拿的是盘子
+                {
+                    if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSo()))
+                    {
+                        GetKitchenObject().DestroySelf();
+                    }
+                } // 结果：玩家将物品放入盘子，盘子在玩家手中
+                else // 玩家拿的不是盘子，是其他东西
+                {
+                    if (GetKitchenObject().TryGetPlate(out plateKitchenObject)) // 该柜台上有盘子
+                    {
+                        if (plateKitchenObject.TryAddIngredient(player.GetKitchenObject().GetKitchenObjectSo()))
+                        {
+                            player.GetKitchenObject().DestroySelf();
+                        }
+                    }
+                } // 结果：玩家将物品放入盘子，盘子在柜台上
             }
             else
             {
