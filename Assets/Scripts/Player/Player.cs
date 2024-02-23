@@ -7,7 +7,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     public static Player Instance { get; private set; }
 
     // 玩家输入
-    [SerializeField] private GameInput gameInput;
+    [SerializeField] private GameInputManager gameInputManager;
 
     // 玩家移动
     [SerializeField] private float moveSpeed = 7f;
@@ -41,8 +41,8 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void Start()
     {
-        gameInput.OnInteractAction += GameInput_OnInteractAction;
-        gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
+        gameInputManager.OnInteractAction += GameInputManager_OnInteractAction;
+        gameInputManager.OnInteractAlternateAction += GameInputManager_OnInteractAlternateAction;
     }
 
     private void Update()
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     /// </summary>
     private void HandleMovement()
     {
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = gameInputManager.GetMovementVectorNormalized();
 
         #region 设置移动
 
@@ -147,7 +147,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     /// </summary>
     private void HandleInteractions()
     {
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = gameInputManager.GetMovementVectorNormalized();
 
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
@@ -184,7 +184,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void GameInput_OnInteractAction(object sender, System.EventArgs e)
+    private void GameInputManager_OnInteractAction(object sender, System.EventArgs e)
     {
         if (selectedCounter != null)
         {
@@ -211,7 +211,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void GameInput_OnInteractAlternateAction(object sender, System.EventArgs e)
+    private void GameInputManager_OnInteractAlternateAction(object sender, System.EventArgs e)
     {
         if (selectedCounter != null)
         {
