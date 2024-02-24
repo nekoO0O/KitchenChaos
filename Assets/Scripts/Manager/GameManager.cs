@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private float waitingToStartTimer = 1f;
     private float countdownToStartTimer = 3f;
     private float gamePlayingTimer = 10f;
+    private float gamePlayingTimerMax = 10f;
 
     private void Awake()
     {
@@ -75,13 +76,39 @@ public class GameManager : MonoBehaviour
         return state == State.CountdownToStart;
     }
 
+    /// <summary>
+    /// 判断游戏是否在进行中
+    /// </summary>
+    /// <returns></returns>
     public bool IsGamePlaying()
     {
         return state == State.GamePlaying;
     }
 
+    /// <summary>
+    /// 判断游戏是否结束
+    /// </summary>
+    /// <returns></returns>
+    public bool IsGameOver()
+    {
+        return state == State.GameOver;
+    }
+
+    /// <summary>
+    /// 得到开始倒计时的剩余时间
+    /// </summary>
+    /// <returns></returns>
     public float GetCountdownToStartTimer()
     {
         return countdownToStartTimer;
+    }
+
+    /// <summary>
+    /// 得到剩余事件的百分比
+    /// </summary>
+    /// <returns></returns>
+    public float GetGamePlayingTimerNormalized()
+    {
+        return 1 - gamePlayingTimer / gamePlayingTimerMax;
     }
 }

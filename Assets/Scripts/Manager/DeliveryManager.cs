@@ -19,11 +19,13 @@ public class DeliveryManager : MonoBehaviour
 
     [SerializeField] private RecipeListSO recipeListSO;
 
-    private List<RecipeSO> waitingRecipeSOList;
+    private List<RecipeSO> waitingRecipeSOList; // 等待食谱列表
     private int waitingRecipesMax = 4;
 
     private float spawnRecipeTimer;
     private float spawnRecipeTimerMax = 4f;
+
+    private int successfulRecipesAmount; // 成功完成的食谱数量
 
     private void Awake()
     {
@@ -39,6 +41,7 @@ public class DeliveryManager : MonoBehaviour
 
     private void Update()
     {
+        // 增加等待食谱列表
         spawnRecipeTimer -= Time.deltaTime;
 
         if (spawnRecipeTimer <= 0f)
@@ -55,6 +58,10 @@ public class DeliveryManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 检查提交的食谱是否是指定的食谱
+    /// </summary>
+    /// <param name="plateKitchenObject"></param>
     public void DeliverRecipe(PlateKitchenObject plateKitchenObject)
     {
         for (int i = 0; i < waitingRecipeSOList.Count; i++) // 遍历等待食谱列表
@@ -85,24 +92,38 @@ public class DeliveryManager : MonoBehaviour
                     }
                 }
 
-                if (plateContentsMatchesRecipe) // 找到食谱
+                if (plateContentsMatchesRecipe) // 找到了匹配的订单，送餐成功
                 {
                     waitingRecipeSOList.RemoveAt(i);
+                    successfulRecipesAmount++;
 
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
-                    OnRecipeSuccess?.Invoke (this, EventArgs.Empty);
+                    OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
                     return;
                 }
             }
         }
 
         // 走到这里说明没有找到食谱
-        OnRecipeFailed?.Invoke (this, EventArgs.Empty);
+        OnRecipeFailed?.Invoke(this, EventArgs.Empty);
         Debug.Log("没有找到食谱");
     }
 
+    /// <summary>
+    /// 获得等待食谱列表
+    /// </summary>
+    /// <returns></returns>
     public List<RecipeSO> GetWaitingRecipeSOList()
     {
         return waitingRecipeSOList;
+    }
+
+    /// <summary>
+    /// 获取成功完成的食谱数量
+    /// </summary>
+    /// <returns></returns>
+    public int GetSuccessfulRecipesAmount()
+    {
+        return successfulRecipesAmount;
     }
 }
