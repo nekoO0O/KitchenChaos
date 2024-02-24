@@ -12,6 +12,11 @@ public class DeliveryManager : MonoBehaviour
     public event EventHandler OnRecipeSpawned;
     public event EventHandler OnRecipeCompleted;
 
+    // 处理声音的事件
+    public event EventHandler OnRecipeSuccess;
+    public event EventHandler OnRecipeFailed;
+
+
     [SerializeField] private RecipeListSO recipeListSO;
 
     private List<RecipeSO> waitingRecipeSOList;
@@ -85,12 +90,14 @@ public class DeliveryManager : MonoBehaviour
                     waitingRecipeSOList.RemoveAt(i);
 
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+                    OnRecipeSuccess?.Invoke (this, EventArgs.Empty);
                     return;
                 }
             }
         }
 
         // 走到这里说明没有找到食谱
+        OnRecipeFailed?.Invoke (this, EventArgs.Empty);
         Debug.Log("没有找到食谱");
     }
 

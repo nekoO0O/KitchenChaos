@@ -11,6 +11,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
 
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged; // UI事件
     public event EventHandler OnCut; // 切割动画事件
+    public static event EventHandler OnAnyCut; // 切割声音播放事件
 
     /// <summary>
     /// 交互（按键E）
@@ -76,6 +77,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
             cuttingProgress++;
 
             OnCut?.Invoke(this, EventArgs.Empty); // 切割动画事件
+            OnAnyCut?.Invoke(this, EventArgs.Empty); // 切割声音播放事件
 
             CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSo());
             OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs() // UI展示事件
