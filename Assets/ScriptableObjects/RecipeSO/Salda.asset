@@ -15,4 +15,4 @@ MonoBehaviour:
   kitchenObjectSOList:
   - {fileID: 11400000, guid: d844bda2ebbe80c429cd84b664589f19, type: 2}
   - {fileID: 11400000, guid: 2105ab3de25b9f64b9dcef6050210971, type: 2}
-  recipeName: Salda
+  recipeName: "\u6C99\u62C9"
