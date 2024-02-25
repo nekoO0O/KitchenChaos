@@ -13,6 +13,11 @@ public class CuttingCounter : BaseCounter, IHasProgress
     public event EventHandler OnCut; // 切割动画事件
     public static event EventHandler OnAnyCut; // 切割声音播放事件
 
+    public new static void ResetStaticData()
+    {
+        OnAnyCut = null;
+    }
+
     /// <summary>
     /// 交互（按键E）
     /// </summary>

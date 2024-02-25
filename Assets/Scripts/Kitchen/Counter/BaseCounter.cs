@@ -7,6 +7,11 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
 {
     public static event EventHandler OnAnyObjectPlacedHere; // 当有物体放置在该对象上时触发
 
+    public static void ResetStaticData()
+    {
+        OnAnyObjectPlacedHere = null;
+    }
+
     [SerializeField] private Transform counterTopPoint;
     private KitchenObject kitchenObject;
 
