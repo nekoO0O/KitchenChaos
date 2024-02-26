@@ -22,7 +22,7 @@ public class SoundManager : MonoBehaviour
         }
 
         Instance = this;
-        
+
         volume = PlayerPrefs.GetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, 1f);
     }
 
@@ -84,6 +84,11 @@ public class SoundManager : MonoBehaviour
         PlaySound(audioClipRefsSO.footstep, position, volumeMultiplier);
     }
 
+    public void PlayCountdownSound()
+    {
+        PlaySound(audioClipRefsSO.warning, Vector3.zero);
+    }
+
     public void ChangeVolume()
     {
         volume += 0.1f;
@@ -91,7 +96,7 @@ public class SoundManager : MonoBehaviour
         {
             volume = 0f;
         }
-        
+
         PlayerPrefs.SetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, volume);
         PlayerPrefs.Save();
     }
